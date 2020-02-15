@@ -1,0 +1,55 @@
+diff --git a/drivers/i2c/i2c_sam0.c b/drivers/i2c/i2c_sam0.c
+index deb1fb9734..0236bf9149 100644
+--- a/drivers/i2c/i2c_sam0.c
++++ b/drivers/i2c/i2c_sam0.c
+@@ -376,6 +376,7 @@ static int i2c_sam0_transfer(struct device *dev, struct i2c_msg *msgs,
+ 	const struct i2c_sam0_dev_config *const cfg = DEV_CFG(dev);
+ 	SercomI2cm *i2c = cfg->regs;
+ 	u32_t addr_reg;
++	volatile u8_t start_num_msgs = num_msgs;  // save the initial number of messages
+ 
+ 	if (!num_msgs) {
+ 		return 0;
+@@ -426,7 +427,14 @@ static int i2c_sam0_transfer(struct device *dev, struct i2c_msg *msgs,
+ 		 * Writing the address starts the transaction, issuing
+ 		 * a start/repeated start as required.
+ 		 */
+-		i2c->ADDR.reg = addr_reg;
++		if ( start_num_msgs == num_msgs ) { // kickoff transaction with addr write if in first loop
++			i2c->ADDR.reg = addr_reg;
++		} else {
++			u8_t first_byte = *data->msg.buffer; // extract first byte
++			data->msg.buffer++; // inc data pointer
++			data->msg.size--; // dec data size
++			i2c->DATA.reg = first_byte; // write data to i2c data reg
++		}
+ 
+ 		/*
+ 		 * Have to wait here to make sure the address write
+@@ -478,20 +486,13 @@ static int i2c_sam0_transfer(struct device *dev, struct i2c_msg *msgs,
+ 				DEV_NAME(dev), data->msg.status);
+ 			return -EIO;
+ 		}
+-
++        // what do we do to setup the next cycle if any
+ 		if (msgs->flags & I2C_MSG_STOP) {
+-			i2c->CTRLB.bit.CMD = 3;
+-		} else if ((msgs->flags & I2C_MSG_RESTART) && num_msgs > 1) {
+-			/*
+-			 * No action, since we do this automatically if we
+-			 * don't send an explicit stop
+-			 */
+-		} else {
+-			/*
+-			 * Neither present, so assume we want to release
+-			 * the bus (by sending a stop)
+-			 */
+-			i2c->CTRLB.bit.CMD = 3;
++			i2c->CTRLB.bit.CMD = 3; // set stop command
++		} else if ( msgs->flags & I2C_MSG_RESTART ) {
++			i2c->CTRLB.bit.CMD = 1; // set restart command
++		} else if ( (msgs->flags & I2C_MSG_WRITE) ) {
++			//i2c->CTRLB.bit.CMD = 3; // lost our way release the bus
+ 		}
+ 
+ 		num_msgs--;
