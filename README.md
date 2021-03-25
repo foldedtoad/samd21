@@ -5,6 +5,8 @@ This project shows how the Zephy RTOS running on an Atmel SAMD21 SOC, can contro
 In this specific phyical configuration, the board was the **Adafruit_Feather_M0_Basic_Proto** board, combined with the 
 **Adafruit_OLED_FeatherWing display+buttons**.
 
+This demo project use the *cfb_xxx"* (Monochrome Character Framebuffer (see *./zephyr/include/display/cfb.h*)) API provided in Zephyr.  The demo is purposefully kept simple, e.g. no elaborate UI, such as the *lvgl* library, is used for example.
+
 While the above configuration has been successfully run, other combinations of SAMD21 and SSD1306 display work as well or be easily modified to work.
 
 A video showing this demo in action can be found [here](https://youtu.be/fuI0KuYwGZU "SAMD21 demo video")
