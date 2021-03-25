@@ -11,17 +11,17 @@
 #include <logging/log.h>
 LOG_MODULE_REGISTER(display, 3);
 
-#define DISPLAY_DRIVER      DT_INST_0_SOLOMON_SSD1306FB_LABEL
+#define DISPLAY_DRIVER      DT_LABEL(DT_INST(0, solomon_ssd1306fb))
 
 #define MAX_FONTS  42
 
 #define SELECTED_FONT_INDEX  0
 
-static struct device *dev;
-static u16_t rows;
-static u8_t ppt;
-static u8_t font_width;
-static u8_t font_height;
+static const struct device * dev;
+static uint16_t rows;
+static uint8_t ppt;
+static uint8_t font_width;
+static uint8_t font_height;
 
 /*---------------------------------------------------------------------------*/
 /*                                                                           */

@@ -31,6 +31,6 @@
 #define EXT_VUSB_GPIO_PIN   26
 #define EXT_EN_GPIO_PIN     27
 
-#define SW_GPIO_NAME        DT_ALIAS_PORT_A_LABEL
+#define SW_GPIO_NAME        DT_LABEL(DT_ALIAS(port_a))
 
 #endif /* __INC_BOARD_H */

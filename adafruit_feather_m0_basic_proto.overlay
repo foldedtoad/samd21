@@ -2,6 +2,31 @@
  *  adafruit_feather_m0_basic_proto modifications
  */
 
+/ {
+
+    aliases {
+        swa  = &sw_a;
+        swb  = &sw_b;
+        swc  = &sw_c;
+    };
+
+    buttons {
+        compatible = "gpio-keys";
+        sw_a: sw_0 {
+            gpios = <&porta 7 (GPIO_PULL_UP | GPIO_ACTIVE_LOW)>;
+            label = "Switch_A";
+        };
+        sw_b: sw_1 {
+            gpios = <&porta 20 (GPIO_PULL_UP | GPIO_ACTIVE_LOW)>;
+            label = "Switch_B";
+        };
+        sw_c: sw_2 {
+            gpios = <&porta 15 (GPIO_PULL_UP | GPIO_ACTIVE_LOW)>;
+            label = "Switch_C";
+        };  
+    };      
+};
+
 &sercom3 {
     status = "okay";
     compatible = "atmel,sam0-i2c";
@@ -10,7 +35,7 @@
     #address-cells = <1>;
     #size-cells = <0>;
 
-    ssd1306@3c {
+    ssd1306: ssd1306@3c {
         compatible = "solomon,ssd1306fb";
         reg = <0x3c>;
         label = "SSD1306";

@@ -6,14 +6,15 @@
 
 #include <init.h>
 #include <drivers/pinmux.h>
+#include <soc.h> 
 
-static int board_pinmux_init2(struct device *dev)
+static int board_pinmux_init2(const struct device *dev)
 {
-	struct device * muxa = device_get_binding(DT_ATMEL_SAM0_PINMUX_PINMUX_A_LABEL);
+	const struct device *muxa = DEVICE_DT_GET(DT_NODELABEL(pinmux_a));
 
 	ARG_UNUSED(dev);
 
-#if DT_ATMEL_SAM0_I2C_SERCOM_3_BASE_ADDRESS
+#if (ATMEL_SAM0_DT_SERCOM_CHECK(3, atmel_sam0_i2c) && CONFIG_I2C_SAM0)
 	/* I2C, SCL = PA23, SDA = PA22 */
 	pinmux_pin_set(muxa, 22, PINMUX_FUNC_C);
 	pinmux_pin_set(muxa, 23, PINMUX_FUNC_C);
