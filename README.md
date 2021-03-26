@@ -18,3 +18,6 @@ There is a [photo](https://github.com/foldedtoad/samd21/blob/master/docs/Adafrui
 This project was developed using the Segger JLINK JTAG/SWD adapter with the Segger [Ozone](https://github.com/foldedtoad/samd21/blob/master/docs/samd21_ozone_debug.png "Ozone debugger") debugger. The GDB debugger should be equally useable too.
 
 **NOTE:** There is a bug in the Zephyr I2C driver for the SAMD21 (SAM0): a fix patch can be found in the *doc* directory, along with logic analyser traces showing both the original I2C transfer failure and (after patching) a trace showing a good transfer.  The *i2c_sam0.patch* file will modify the Zephyr file at *zephyr/drivers/i2c/i2c_sam0.c*.
+
+**NOTE:** You may need to clear the bootloader protection bit in the NVM.  
+Here is [link](https://roamingthings.de/posts/use-j-link-to-change-the-boot-loader-protection-of-a-sam-d21 ) explaining how to do remove the bootloader protection bit which will allow you to load this project's binary onto the SoC.
