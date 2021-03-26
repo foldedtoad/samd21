@@ -22,5 +22,5 @@ This project was developed using the Segger JLINK JTAG/SWD adapter with the Segg
 **NOTE:** You may need to clear the bootloader protection bit in the NVM.  
 Here is [link](https://roamingthings.de/posts/use-j-link-to-change-the-boot-loader-protection-of-a-sam-d21 ) explaining how to do remove the bootloader protection bit which will allow you to load this project's binary onto the SoC.
 
-**NOTE:** The *adafruit_feather_m0_basic_proto.overlay* file has been modified to remove the bootloader code section.  This frees some extra code-space memory for application use: about 8K. (The 8K is the segment size previously allocated for the bootloader code.)
+**NOTE:** The *adafruit_feather_m0_basic_proto.overlay* file has been modified to remove the bootloader code section.  This frees some extra code-space memory for application use: about 4K. (The 4K is the segment size previously allocated for the bootloader code.)
 
