@@ -51,3 +51,25 @@
         com-sequential;
     };
 };
+
+/*
+ *   Override flash0 to exclude boot_partition.
+ */
+
+/delete-node/ &boot_partition;
+/delete-node/ &code_partition;
+
+&flash0 {
+    partitions {
+        compatible = "fixed-partitions";
+        #address-cells = <1>;
+        #size-cells = <1>;
+
+        code_partition: partition@0 {
+            label = "code";
+            reg = <0x0000 0x3A000>;
+            read-only;
+        };
+    };
+};
+
