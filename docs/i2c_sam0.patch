@@ -1,16 +1,16 @@
 diff --git a/drivers/i2c/i2c_sam0.c b/drivers/i2c/i2c_sam0.c
-index deb1fb9734..0236bf9149 100644
+index e7e3ed28bf..4e189e3df2 100644
 --- a/drivers/i2c/i2c_sam0.c
 +++ b/drivers/i2c/i2c_sam0.c
-@@ -376,6 +376,7 @@ static int i2c_sam0_transfer(struct device *dev, struct i2c_msg *msgs,
+@@ -369,6 +369,7 @@ static int i2c_sam0_transfer(const struct device *dev, struct i2c_msg *msgs,
  	const struct i2c_sam0_dev_config *const cfg = DEV_CFG(dev);
  	SercomI2cm *i2c = cfg->regs;
- 	u32_t addr_reg;
+ 	uint32_t addr_reg;
 +	volatile u8_t start_num_msgs = num_msgs;  // save the initial number of messages
  
  	if (!num_msgs) {
  		return 0;
-@@ -426,7 +427,14 @@ static int i2c_sam0_transfer(struct device *dev, struct i2c_msg *msgs,
+@@ -419,7 +420,14 @@ static int i2c_sam0_transfer(const struct device *dev, struct i2c_msg *msgs,
  		 * Writing the address starts the transaction, issuing
  		 * a start/repeated start as required.
  		 */
@@ -26,7 +26,7 @@ index deb1fb9734..0236bf9149 100644
  
  		/*
  		 * Have to wait here to make sure the address write
-@@ -478,20 +486,13 @@ static int i2c_sam0_transfer(struct device *dev, struct i2c_msg *msgs,
+@@ -471,20 +479,13 @@ static int i2c_sam0_transfer(const struct device *dev, struct i2c_msg *msgs,
  				DEV_NAME(dev), data->msg.status);
  			return -EIO;
  		}
