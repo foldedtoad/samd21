@@ -30,7 +30,10 @@ Here is [link](https://roamingthings.de/posts/use-j-link-to-change-the-boot-load
 The *adafruit_feather_m0_basic_proto.overlay* file has been modified to remove the bootloader code section.  This frees some extra code-space memory for application use: about 4K. (The 4K is the segment size previously allocated for the bootloader code.)
 
 ## SAMD21 I2C Bug and a Patch
-There is a bug in the Zephyr I2C driver for the SAMD21 (SAM0): a fix patch can be found in the *doc* directory, along with logic analyser traces showing both the original I2C transfer failure and (after patching) a trace showing a good transfer.  The *i2c_sam0.patch* file will modify the Zephyr file at *zephyr/drivers/i2c/i2c_sam0.c*.  
+There is a bug in the Zephyr I2C driver for the SAMD21 (SAM0): a fix patch can be found in the *doc* directory, along with logic analyser traces showing both the original I2C transfer failure and (after patching) a trace showing a good transfer.  
+This [screenshot](https://github.com/foldedtoad/samd21/blob/master/docs/i2c_sam0_analysis_compare.png) gives a brief analysis of the issue.
+
+The *i2c_sam0.patch* file will modify the Zephyr file at *zephyr/drivers/i2c/i2c_sam0.c*.  
 Assume the following file/directory layout (adjust to your specific layout).  
   * Path to Zephyr root:  ~/zephyr/zephyrproject/zephyr
   * Path to samd21 project root:  ~/zephyr/samd21
