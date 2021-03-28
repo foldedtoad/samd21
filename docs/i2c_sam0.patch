@@ -6,7 +6,7 @@ index e7e3ed28bf..4e189e3df2 100644
  	const struct i2c_sam0_dev_config *const cfg = DEV_CFG(dev);
  	SercomI2cm *i2c = cfg->regs;
  	uint32_t addr_reg;
-+	volatile u8_t start_num_msgs = num_msgs;  // save the initial number of messages
++	volatile uint8_t start_num_msgs = num_msgs;  // save the initial number of messages
  
  	if (!num_msgs) {
  		return 0;
@@ -18,7 +18,7 @@ index e7e3ed28bf..4e189e3df2 100644
 +		if ( start_num_msgs == num_msgs ) { // kickoff transaction with addr write if in first loop
 +			i2c->ADDR.reg = addr_reg;
 +		} else {
-+			u8_t first_byte = *data->msg.buffer; // extract first byte
++			uint8_t first_byte = *data->msg.buffer; // extract first byte
 +			data->msg.buffer++; // inc data pointer
 +			data->msg.size--; // dec data size
 +			i2c->DATA.reg = first_byte; // write data to i2c data reg
